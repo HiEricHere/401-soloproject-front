@@ -7,6 +7,7 @@
 //     friends: {},
 //   },
 //   posts: {},
+//   signUpForm: {},
 // };
 
 // export default (state = initState, action) => {
