@@ -1,9 +1,13 @@
 import React from 'react';
+import SignUp from '../../components/Forms/SignUp';
 
 class App extends React.Component {
   render() {
     return (
-      <h1>{'i\'m aliiiive'}</h1>
+      <React.Fragment>
+        <h3>Sign Up</h3>
+        <SignUp/>
+      </React.Fragment>
     );
   }
 }
