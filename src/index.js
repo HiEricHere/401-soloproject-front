@@ -22,5 +22,5 @@ redux:
   combineReducers -> main/root-reducer.js combinedReducers({...});
 react-redux:
   Provider -> index
-  Connect -> component
+  connect -> component
 */

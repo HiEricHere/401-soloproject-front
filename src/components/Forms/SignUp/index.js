@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { signUp } from '../../../store/actions/userActions';
 
@@ -10,6 +11,8 @@ class SignUpForm extends React.Component {
       password: '',
     };
   }
+
+  // componentDidUpdate(){} notification message
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -26,30 +29,43 @@ class SignUpForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type='text'
-          name='username'
-          placeholder='username'
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-        <input
-          type='text'
-          name='password'
-          placeholder='password'
-          value={this.state.password}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Submit</button>
-        <button type="reset" onClick={this.handleClear}>Clear</button>
-      </form>
+      <React.Fragment>
+        <h3>Sign Up</h3>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type='text'
+            name='username'
+            placeholder='username'
+            value={this.state.username}
+            onChange={this.handleChange}
+          />
+          <input
+            type='text'
+            name='password'
+            placeholder='password'
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+          <button type="submit">Submit</button>
+          { this.props.error ? <p>{`Error: ${this.props.error}`}</p> : null }
+          <button type="reset" onClick={this.handleClear}>Clear</button>
+        </form>
+      </React.Fragment>
     );
   }
 }
 
-const mapDispatchToState = (dispatch) => {
+const mapStateToProps = (state) => {
+  return { error: state.userReducer.error };
+};
+
+const mapDispatchToProps = (dispatch) => {
   return { submitSignUp: (userData) => dispatch(signUp(userData)) };
 };
 
-export default connect(null, mapDispatchToState)(SignUpForm);
+SignUpForm.propTypes = {
+  submitSignUp: PropTypes.func,
+  error: PropTypes.string,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
