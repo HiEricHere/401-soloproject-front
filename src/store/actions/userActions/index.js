@@ -19,23 +19,28 @@ const SIGN_UP_SUCCESS = (username) => {
 };
 
 const SIGN_IN_FAIL = (error) => {
-  return { type: 'SIGN_IN_FAIL', error };
+  return {
+    type: 'SIGN_IN_FAIL',
+    payload: error,
+  };
 };
 
-export const LOG_IN = (userData, token) => {
+const SIGN_IN_SUCCESS = (userData, token) => {
   return {
-    type: 'LOG_IN',
+    type: 'SIGN_IN_SUCCESS',
     payload: {
-      id: userData.id,
-      username: userData.username,
+      user: {
+        id: userData.id,
+        username: userData.username,
+      },
       funPass: token,
     },
   };
 };
 
-export const LOG_OUT = () => {
+export const SIGN_OUT = () => {
   return {
-    type: 'LOG_OUT',
+    type: 'SIGN_OUT',
   };
 };
 
@@ -77,7 +82,7 @@ export const signUp = (userData) => {
   };
 };
 
-// LOG IN
+// SIGN IN
 export const signIn = (credentials) => {
   return (dispatch) => {
     return superagent
@@ -86,8 +91,8 @@ export const signIn = (credentials) => {
       .then((response) => { // { status:bool, message: { id, username }, funPass: token }
         if (response.body.status) {
           const { message, funPass } = response.body; 
-          dispatch(LOG_IN(message, funPass));
-        } else dispatch(SIGN_IN_FAIL(response.body.message.name));
+          dispatch(SIGN_IN_SUCCESS(message, funPass));
+        } else dispatch(SIGN_IN_FAIL(response.body.message));
       })
       .catch((error) => {
         dispatch(SIGN_IN_FAIL(error));
@@ -96,4 +101,5 @@ export const signIn = (credentials) => {
 };
 
 // log out
+
 // update user details

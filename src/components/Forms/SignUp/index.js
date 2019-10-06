@@ -45,7 +45,7 @@ class SignUpForm extends React.Component {
             onChange={this.handleChange}
           />
           <button type="submit">Submit</button>
-          { (this.props.status !== null) ? <p>{this.props.notification}</p> : null }
+          { this.props.status !== null ? <p>{this.props.notification}</p> : null }
           <button type="reset" onClick={this.handleClear}>Clear</button>
         </form>
       </React.Fragment>

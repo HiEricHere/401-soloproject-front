@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { LOG_OUT } from '../../store/actions/userActions';
+import { SIGN_OUT } from '../../store/actions/userActions';
 
 class NavBar extends React.Component {
   handleLogOutButton = () => {
@@ -21,7 +21,7 @@ class NavBar extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { logOut: () => dispatch(LOG_OUT()) };
+  return { logOut: () => dispatch(SIGN_OUT()) };
 };
 
 NavBar.propTypes = {

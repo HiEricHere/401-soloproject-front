@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { signIn } from '../../../store/actions/userActions';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -15,7 +18,7 @@ class SignIn extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(this.state);
+    this.props.submitSignIn(this.state);
   }
 
   render() {
@@ -36,10 +39,28 @@ class SignIn extends React.Component {
             onChange={this.handleChange}
           />
           <button type='submit'>Log In</button>
+          { !this.props.status ? <p>{this.props.notification}</p> : null }
         </form>
       </React.Fragment>
     );
   }
 }
 
-export default SignIn;
+const mapStateToProps = (state) => {
+  return {
+    status: state.signInReducer.status,
+    notification: state.signInReducer.notification,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return { submitSignIn: (credentials) => dispatch(signIn(credentials)) };
+};
+
+SignIn.propTypes = {
+  submitSignIn: PropTypes.func,
+  status: PropTypes.bool,
+  notification: PropTypes.string,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
