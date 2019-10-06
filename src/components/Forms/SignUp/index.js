@@ -12,8 +12,6 @@ class SignUpForm extends React.Component {
     };
   }
 
-  // componentDidUpdate(){} notification message
-
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -47,7 +45,7 @@ class SignUpForm extends React.Component {
             onChange={this.handleChange}
           />
           <button type="submit">Submit</button>
-          { this.props.error ? <p>{`Error: ${this.props.error}`}</p> : null }
+          { (this.props.status !== null) ? <p>{this.props.notification}</p> : null }
           <button type="reset" onClick={this.handleClear}>Clear</button>
         </form>
       </React.Fragment>
@@ -56,7 +54,10 @@ class SignUpForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { error: state.userReducer.error };
+  return {
+    status: state.signUpReducer.success,
+    notification: state.signUpReducer.notification,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -65,7 +66,8 @@ const mapDispatchToProps = (dispatch) => {
 
 SignUpForm.propTypes = {
   submitSignUp: PropTypes.func,
-  error: PropTypes.string,
+  status: PropTypes.bool,
+  notification: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

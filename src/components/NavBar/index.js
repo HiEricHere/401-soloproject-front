@@ -12,7 +12,9 @@ class NavBar extends React.Component {
     return (
       <React.Fragment>
         <h2>Nav Bar</h2>
-        <button type='button' onClick={this.handleLogOutButton}>Log Out</button>
+        <li>placeholder1</li>
+        <li>placeholder2</li>
+        <li><button type='button' onClick={this.handleLogOutButton}>Log Out</button></li>
       </React.Fragment>
     );
   }

@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import userReducer from './user-reducer';
 import postReducer from './post-reducer';
+import signUpReducer from './signup-reducer';
 
 const mainReducer = combineReducers({
   userReducer,
+  signUpReducer,
   postReducer,
 });
 

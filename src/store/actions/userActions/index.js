@@ -1,35 +1,34 @@
 import superagent from 'superagent';
 
-const url = 'http://localhost:8080/signup';
+const url = process.env.REACT_APP_URL;
 
 // actions
 
-const ERROR_MSG = (error) => {
+const SIGN_UP_FAIL = (error) => {
   return {
-    type: 'ERROR_MSG',
-    payload: {
-      error,
-    },
+    type: 'SIGN_UP_FAIL',
+    payload: error,
   };
 };
 
-const SIGN_UP = (userData, status) => {
+const SIGN_UP_SUCCESS = (username) => {
   return {
-    type: 'SIGN_UP',
-    payload: {
-      status,
-      username: userData.username,
-      password: userData.password,
-    },
+    type: 'SIGN_UP_SUCCESS',
+    payload: username,
   };
 };
 
-export const LOG_IN = (userData) => {
+const SIGN_IN_FAIL = (error) => {
+  return { type: 'SIGN_IN_FAIL', error };
+};
+
+export const LOG_IN = (userData, token) => {
   return {
     type: 'LOG_IN',
     payload: {
+      id: userData.id,
       username: userData.username,
-      password: userData.password,
+      funPass: token,
     },
   };
 };
@@ -59,23 +58,42 @@ export const UPDATE_USER_DATA = (userData) => {
 
 // action creators
 
+// SIGN UP FORM
 export const signUp = (userData) => {
   return (dispatch) => {
     // async here APP_API_URL
     return superagent
-      .post(url)
+      .post(`${url}/signup`)
       .send(userData)
       .then((response) => {
-        if (response.body.status) {
-          dispatch(SIGN_UP(userData, response.body.message));
-        } else dispatch(ERROR_MSG(response.body.message.name)); // { status: false, message: error }
-      })
+        if (response.body.status) { // { status: true, message: username }
+          const username = response.body.message;
+          dispatch(SIGN_UP_SUCCESS(username));
+        } else dispatch(SIGN_UP_FAIL(response.body.message.name)); 
+      }) // { status: false, message: error }
       .catch((error) => {
-        dispatch(ERROR_MSG(error));
+        dispatch(SIGN_UP_FAIL(error));
       });
   };
 };
 
-// log in
+// LOG IN
+export const signIn = (credentials) => {
+  return (dispatch) => {
+    return superagent
+      .post(`${url}/signin`)
+      .set({ Authorization: `Basic ${btoa(`${credentials.username}:${credentials.password}`)}` })
+      .then((response) => { // { status:bool, message: { id, username }, funPass: token }
+        if (response.body.status) {
+          const { message, funPass } = response.body; 
+          dispatch(LOG_IN(message, funPass));
+        } else dispatch(SIGN_IN_FAIL(response.body.message.name));
+      })
+      .catch((error) => {
+        dispatch(SIGN_IN_FAIL(error));
+      });
+  };
+};
+
 // log out
 // update user details
