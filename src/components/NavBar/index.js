@@ -21,7 +21,12 @@ class NavBar extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { logOut: () => dispatch(SIGN_OUT()) };
+  return { 
+    logOut: () => {
+      dispatch(SIGN_OUT());
+      localStorage.removeItem('funPass');
+    },
+  };
 };
 
 NavBar.propTypes = {

@@ -2,8 +2,11 @@ import superagent from 'superagent';
 
 const url = process.env.REACT_APP_URL;
 
-// actions
+// ACTIONS -----------------------------------------------------------
 
+/* ===================================================================
+ Sign up
+=================================================================== */
 const SIGN_UP_FAIL = (error) => {
   return {
     type: 'SIGN_UP_FAIL',
@@ -17,7 +20,9 @@ const SIGN_UP_SUCCESS = (username) => {
     payload: username,
   };
 };
-
+/* ===================================================================
+ Sign in / Sign out
+=================================================================== */
 const SIGN_IN_FAIL = (error) => {
   return {
     type: 'SIGN_IN_FAIL',
@@ -43,7 +48,9 @@ export const SIGN_OUT = () => {
     type: 'SIGN_OUT',
   };
 };
-
+/* ===================================================================
+ To do / misc
+=================================================================== */
 export const RESET_USER_STATE = () => {
   return {
     type: 'RESET_USER_STATE',
@@ -60,8 +67,7 @@ export const UPDATE_USER_DATA = (userData) => {
   };
 };
 
-
-// action creators
+// ACTION CREATORS ----------------------------------------------------
 
 // SIGN UP FORM
 export const signUp = (userData) => {
@@ -82,7 +88,7 @@ export const signUp = (userData) => {
   };
 };
 
-// SIGN IN
+// SIGN IN FORM
 export const signIn = (credentials) => {
   return (dispatch) => {
     return superagent
@@ -90,7 +96,8 @@ export const signIn = (credentials) => {
       .set({ Authorization: `Basic ${btoa(`${credentials.username}:${credentials.password}`)}` })
       .then((response) => { // { status:bool, message: { id, username }, funPass: token }
         if (response.body.status) {
-          const { message, funPass } = response.body; 
+          const { message, funPass } = response.body;
+          localStorage.setItem('funPass', funPass);
           dispatch(SIGN_IN_SUCCESS(message, funPass));
         } else dispatch(SIGN_IN_FAIL(response.body.message));
       })
@@ -100,6 +107,15 @@ export const signIn = (credentials) => {
   };
 };
 
-// log out
-
+// export const authCheck = (id) => {
+//   return (dispatch) => {
+//     if (authUser(id)) {
+//       console.log(authUser(id));
+//       return true;
+//     } 
+//     localStorage.removeItem('funPass');
+//     dispatch(SIGN_OUT());
+//     return false;
+//   };
+// };
 // update user details

@@ -1,22 +1,22 @@
 import React from 'react';
 // import { connect } from 'react-redux';
-import NavBar from '../../components/NavBar';
-import SignIn from '../../components/Forms/SignIn';
-import SignUp from '../../components/Forms/SignUp';
+import { BrowserRouter } from 'react-router-dom';
+import Home from '../Home';
 
 class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <NavBar/>
-        <SignIn/>
-        <SignUp/>
+        <BrowserRouter>
+            <Home/>
+        </BrowserRouter>
       </React.Fragment>
     );
   }
 }
 
 export default App;
+
 // const mapPropsToState = (state) => {
 //   return { userStatus: state.userReducer.activeUser }
 // }
