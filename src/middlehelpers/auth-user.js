@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-let secret = process.env.REACT_APP_SECRET.toLowerCase();
+const secret = process.env.REACT_APP_SECRET.toLowerCase();
 
 const auth = (currentUserID) => {
   if (!localStorage.getItem('funPass')) return false;

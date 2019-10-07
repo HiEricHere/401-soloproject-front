@@ -15,8 +15,8 @@ class Home extends React.Component {
   }
 
   componentDidUpdate(prevState) {
-    if (prevState.id !== this.props.id ) {
-      this.setState({ activeUser: authCheck(this.props.id ) });
+    if (prevState.id !== this.props.id) {
+      this.setState({ activeUser: authCheck(this.props.id) });
     }
   }
 
