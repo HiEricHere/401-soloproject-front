@@ -11,6 +11,7 @@ const signUpReducer = (state = initState, action) => {
     case 'SIGN_UP_SUCCESS': // payload username, password. Need to add ID to payload before reducer, update database async
       return { success: true, notification: `✅ Account successfully created, ${action.payload}.` };
     case 'SIGN_UP_RESET':
+      console.log('hi');
       return { ...initState };
     default:
       return state;

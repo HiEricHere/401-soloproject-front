@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { signUp, SIGN_UP_FAIL } from '../../../store/actions/userActions';
+import { signUp, SIGN_UP_FAIL, SIGN_UP_RESET } from '../../../store/actions/userActions';
 
 class SignUpForm extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class SignUpForm extends React.Component {
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+    SIGN_UP_RESET();
   }
 
   handleClear = () => {
@@ -24,6 +25,7 @@ class SignUpForm extends React.Component {
     event.preventDefault();
     if (this.state.username.length >= 4 && this.state.password.length >= 4) {
       this.props.submitSignUp(this.state);
+      SIGN_UP_RESET();
     } else {
       this.props.SIGN_UP_FAIL('Username and password need to be at least 4 characters.');
     }
@@ -76,6 +78,7 @@ SignUpForm.propTypes = {
   status: PropTypes.bool,
   notification: PropTypes.string,
   SIGN_UP_FAIL: PropTypes.func,
+  SIGN_UP_RESET: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

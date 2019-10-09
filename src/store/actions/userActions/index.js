@@ -20,6 +20,12 @@ const SIGN_UP_SUCCESS = (username) => {
     payload: username,
   };
 };
+
+export const SIGN_UP_RESET = () => {
+  return {
+    type: 'SIGN_UP_RESET',
+  };
+};
 /* ===================================================================
  Sign in / Sign out
 =================================================================== */
