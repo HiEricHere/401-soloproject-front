@@ -2,9 +2,12 @@ import superagent from 'superagent';
 
 const url = process.env.REACT_APP_URL;
 
-// actions
+// ACTIONS -----------------------------------------------------------
 
-const SIGN_UP_FAIL = (error) => {
+/* ===================================================================
+ Sign up
+=================================================================== */
+export const SIGN_UP_FAIL = (error) => {
   return {
     type: 'SIGN_UP_FAIL',
     payload: error,
@@ -17,7 +20,9 @@ const SIGN_UP_SUCCESS = (username) => {
     payload: username,
   };
 };
-
+/* ===================================================================
+ Sign in / Sign out
+=================================================================== */
 const SIGN_IN_FAIL = (error) => {
   return {
     type: 'SIGN_IN_FAIL',
@@ -25,7 +30,7 @@ const SIGN_IN_FAIL = (error) => {
   };
 };
 
-const SIGN_IN_SUCCESS = (userData, token) => {
+const SIGN_IN_SUCCESS = (userData) => {
   return {
     type: 'SIGN_IN_SUCCESS',
     payload: {
@@ -33,7 +38,6 @@ const SIGN_IN_SUCCESS = (userData, token) => {
         id: userData.id,
         username: userData.username,
       },
-      funPass: token,
     },
   };
 };
@@ -43,7 +47,9 @@ export const SIGN_OUT = () => {
     type: 'SIGN_OUT',
   };
 };
-
+/* ===================================================================
+ To do / misc
+=================================================================== */
 export const RESET_USER_STATE = () => {
   return {
     type: 'RESET_USER_STATE',
@@ -60,8 +66,7 @@ export const UPDATE_USER_DATA = (userData) => {
   };
 };
 
-
-// action creators
+// ACTION CREATORS ----------------------------------------------------
 
 // SIGN UP FORM
 export const signUp = (userData) => {
@@ -82,7 +87,7 @@ export const signUp = (userData) => {
   };
 };
 
-// SIGN IN
+// SIGN IN FORM
 export const signIn = (credentials) => {
   return (dispatch) => {
     return superagent
@@ -90,8 +95,9 @@ export const signIn = (credentials) => {
       .set({ Authorization: `Basic ${btoa(`${credentials.username}:${credentials.password}`)}` })
       .then((response) => { // { status:bool, message: { id, username }, funPass: token }
         if (response.body.status) {
-          const { message, funPass } = response.body; 
-          dispatch(SIGN_IN_SUCCESS(message, funPass));
+          const { message, funPass } = response.body;
+          localStorage.setItem('funPass', funPass);
+          dispatch(SIGN_IN_SUCCESS(message));
         } else dispatch(SIGN_IN_FAIL(response.body.message));
       })
       .catch((error) => {
@@ -99,7 +105,3 @@ export const signIn = (credentials) => {
       });
   };
 };
-
-// log out
-
-// update user details
