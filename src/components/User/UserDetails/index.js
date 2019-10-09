@@ -1,18 +1,23 @@
-// import React from 'react';
-// import { connect } from 'react-redux';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-// class UserDetails extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       username: null,
-//       // password, TODO: add update user details
-//     };
-//   }
-  
-//   render(){
+class UserDetails extends React.Component {  
+  render() {
+    return (
+      <h2>Welcome, {`${this.props.username}`}</h2>
+    );
+  }
+}
 
-//   }
-// };
+const mapStateToProps = (state) => {
+  return {
+    username: state.userReducer.user.username,
+  };
+};
 
-// const 
+UserDetails.propTypes = {
+  username: PropTypes.string,
+};
+
+export default connect(mapStateToProps)(UserDetails);

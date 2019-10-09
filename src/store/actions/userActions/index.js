@@ -7,7 +7,7 @@ const url = process.env.REACT_APP_URL;
 /* ===================================================================
  Sign up
 =================================================================== */
-const SIGN_UP_FAIL = (error) => {
+export const SIGN_UP_FAIL = (error) => {
   return {
     type: 'SIGN_UP_FAIL',
     payload: error,
@@ -30,7 +30,7 @@ const SIGN_IN_FAIL = (error) => {
   };
 };
 
-const SIGN_IN_SUCCESS = (userData, token) => {
+const SIGN_IN_SUCCESS = (userData) => {
   return {
     type: 'SIGN_IN_SUCCESS',
     payload: {
@@ -38,7 +38,6 @@ const SIGN_IN_SUCCESS = (userData, token) => {
         id: userData.id,
         username: userData.username,
       },
-      funPass: token,
     },
   };
 };
@@ -98,7 +97,7 @@ export const signIn = (credentials) => {
         if (response.body.status) {
           const { message, funPass } = response.body;
           localStorage.setItem('funPass', funPass);
-          dispatch(SIGN_IN_SUCCESS(message, funPass));
+          dispatch(SIGN_IN_SUCCESS(message));
         } else dispatch(SIGN_IN_FAIL(response.body.message));
       })
       .catch((error) => {
@@ -106,16 +105,3 @@ export const signIn = (credentials) => {
       });
   };
 };
-
-// export const authCheck = (id) => {
-//   return (dispatch) => {
-//     if (authUser(id)) {
-//       console.log(authUser(id));
-//       return true;
-//     } 
-//     localStorage.removeItem('funPass');
-//     dispatch(SIGN_OUT());
-//     return false;
-//   };
-// };
-// update user details
